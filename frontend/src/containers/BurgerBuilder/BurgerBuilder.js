@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -9,7 +11,11 @@ const INGREDIENT_PRICES = {
   meat: 1.3,
   bacon: 0.7
 }
+// name of order summary modal
+const ORDER_SUMMARY_MODAL = "orderSummaryModal";
+
 class BurgerBuilder extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +26,8 @@ class BurgerBuilder extends Component {
         meat: 0
       },
       totalPrice: 4,
-      purchaseable: false
+      purchaseable: false,
+      purchasing: false
     }
   }
 
@@ -33,7 +40,6 @@ class BurgerBuilder extends Component {
         return sum + el
       }, 0);
 
-    console.log(sum);
     this.setState({purchaseable: sum > 0})
   }
 
@@ -65,6 +71,14 @@ class BurgerBuilder extends Component {
     this.updatePurchaseState(updatedIngredients);
   }
 
+  purchaseCancelHandler = () => {
+    alert("Purchase canceled!");
+  }
+
+  purchaseContinueHandler = () => {
+    alert('Purchase continues!');
+  }
+
   render() {
     const disabledInfo = {
       ...this.state.ingredients
@@ -75,13 +89,20 @@ class BurgerBuilder extends Component {
     return (
       <Aux>
         <div className="container-fluid">
+          <Modal keyId={ORDER_SUMMARY_MODAL}>
+            <OrderSummary ingredients={this.state.ingredients}
+              purchaseContinue={this.purchaseContinueHandler}
+              purchaseCancel={this.purchaseCancelHandler}
+              price={this.state.totalPrice}/>
+          </Modal>
           <Burger ingredients={this.state.ingredients}/>
           <BuildControls
             ingredientAdded={this.addIngredientHandler}
             ingredientRemoved={this.removeIngredientHandler}
             disabledInfo={disabledInfo}
             price={this.state.totalPrice}
-            purchaseable={this.state.purchaseable}/>
+            purchaseable={this.state.purchaseable}
+            orderSummaryModal={ORDER_SUMMARY_MODAL}/>
         </div>
       </Aux>
     )

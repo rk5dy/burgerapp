@@ -23,7 +23,7 @@ const buildControls = (props) => {
         removed={() => props.ingredientRemoved(ctrl.type)}
         disabled={props.disabledInfo[ctrl.type]}/>
       ))}
-      <button className="btn btn-primary" disabled={!props.purchaseable}>ORDER NOW</button>
+      <button className="btn btn-info" disabled={!props.purchaseable} data-toggle="modal" data-target={"#"+props.orderSummaryModal}>ORDER NOW</button>
     </div>
   );
 }
