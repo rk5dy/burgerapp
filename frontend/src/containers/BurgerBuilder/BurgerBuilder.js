@@ -76,17 +76,26 @@ class BurgerBuilder extends Component {
   }
   //     public Order(int saladCount, int baconCount, int cheeseCount, int meatCount, double price, String orderName) {
   purchaseContinueHandler = () => {
-    const order = {
-      saladCount: this.state.ingredients.salad,
-      baconCount: this.state.ingredients.bacon,
-      cheeseCount: this.state.ingredients.cheese,
-      meatCount: this.state.ingredients.meat,
-      price: this.state.totalPrice,
-      orderName: 'tempname'
-    };
-    axios.post('/create', order)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
+    // const order = {
+    //   saladCount: this.state.ingredients.salad,
+    //   baconCount: this.state.ingredients.bacon,
+    //   cheeseCount: this.state.ingredients.cheese,
+    //   meatCount: this.state.ingredients.meat,
+    //   price: this.state.totalPrice,
+    //   orderName: 'tempname'
+    // };
+    // axios.post('/create', order)
+    //   .then(response => console.log(response))
+    //   .catch(error => console.log(error));
+    const queryParams=[];
+    for (let i in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+    }
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   }
 
   render() {

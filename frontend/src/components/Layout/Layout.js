@@ -3,11 +3,11 @@ import Aux from '../../hoc/Aux';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
 const layout = (props) => (
   <Aux>
-    <div class="container-fluid">
-      <div class="row">
+    <div className="container-fluid">
+      <div className="row">
         <Toolbar />
       </div>
-      <div class="row">
+      <div className="row">
         {props.children}
       </div>
     </div>
