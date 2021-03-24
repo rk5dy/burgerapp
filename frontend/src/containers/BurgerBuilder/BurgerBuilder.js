@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -52,7 +53,6 @@ class BurgerBuilder extends Component {
     updatedIngredients[type] = updatedCount;
     const oldPrice = this.state.totalPrice;
     const newPrice = INGREDIENT_PRICES[type] + oldPrice;
-    console.log(updatedIngredients);
     this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
     this.updatePurchaseState(updatedIngredients);
   }
@@ -74,9 +74,19 @@ class BurgerBuilder extends Component {
   purchaseCancelHandler = () => {
     alert("Purchase canceled!");
   }
-
+  //     public Order(int saladCount, int baconCount, int cheeseCount, int meatCount, double price, String orderName) {
   purchaseContinueHandler = () => {
-    alert('Purchase continues!');
+    const order = {
+      saladCount: this.state.ingredients.salad,
+      baconCount: this.state.ingredients.bacon,
+      cheeseCount: this.state.ingredients.cheese,
+      meatCount: this.state.ingredients.meat,
+      price: this.state.totalPrice,
+      orderName: 'tempname'
+    };
+    axios.post('/create', order)
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
   }
 
   render() {
